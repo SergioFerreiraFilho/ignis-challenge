@@ -1,6 +1,8 @@
 textarea {
-    height: 100px;
-    width: 400px;
+    min-height: 100px;
+    max-height: 100px;
+    min-width: 430px;
+    max-width: 430px; 
 }
 
 
@@ -8,6 +10,7 @@ table {
     border-collapse: separate;
     border-spacing: 10px;
     margin-bottom: 20px;
+    max-width: 550px;
   }
 
   .textArea-buttonDiv {
@@ -17,8 +20,13 @@ table {
   button {
     color: blue;
     background-color: yellow;
+    max-width: 100px;
   }
 
   table, td {
     border: 1px solid black;
   }
+
+td {
+    text-align: center;
+}
