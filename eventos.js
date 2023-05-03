@@ -62,7 +62,6 @@ function gerarJogos() {
     jogo.gols2 = gols2;
   }
 
-  // Ordena os jogos por rodada e turno
   jogosVolta.sort(function (a, b) {
     if (a.rodada != b.rodada) {
       return a.rodada - b.rodada;
@@ -75,7 +74,6 @@ function gerarJogos() {
     }
   });
 
-  // Adiciona os jogos na tabela
   for (let i = 0; i < jogosVolta.length; i++) {
     let jogo = jogosVolta[i];
     let partida =
@@ -90,8 +88,10 @@ function gerarJogos() {
       "</td><td>" +
       jogo.rodada +
       "</td><td>" +
-      jogo.gols1 + "x" + jogo.gols2
-      "</td><td>";
+      jogo.gols1 +
+      "x" +
+      jogo.gols2;
+    ("</td><td>");
 
     tabela.innerHTML += partida;
   }
