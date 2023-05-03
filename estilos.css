@@ -10,11 +10,13 @@ table {
     border-collapse: separate;
     border-spacing: 10px;
     margin-bottom: 20px;
-    max-width: 550px;
+    min-width: 522px;
+    max-width: 522px;
   }
 
   .textArea-buttonDiv {
     display: flex;
+    min-width: 600px;
   }
 
   button {
