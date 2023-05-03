@@ -1,0 +1,24 @@
+textarea {
+    height: 100px;
+    width: 400px;
+}
+
+
+table {
+    border-collapse: separate;
+    border-spacing: 10px;
+    margin-bottom: 20px;
+  }
+
+  .textArea-buttonDiv {
+    display: flex;
+  }
+
+  button {
+    color: blue;
+    background-color: yellow;
+  }
+
+  table, td {
+    border: 1px solid black;
+  }
