@@ -32,3 +32,11 @@ table {
 td {
     text-align: center;
 }
+
+span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  min-width: 300px;
+} 

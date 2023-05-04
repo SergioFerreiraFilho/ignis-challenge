@@ -1,4 +1,5 @@
 function gerarJogos() {
+  tabela.innerHTML = ""
   let timesTextArea = document.getElementById("times");
   let timesTexto = timesTextArea.value;
   let partidas = timesTexto.split("\n");
@@ -73,7 +74,7 @@ function gerarJogos() {
       }
     }
   });
-
+  
   for (let i = 0; i < jogosVolta.length; i++) {
     let jogo = jogosVolta[i];
     let partida =
@@ -92,7 +93,35 @@ function gerarJogos() {
       "x" +
       jogo.gols2;
     ("</td><td>");
-
     tabela.innerHTML += partida;
   }
+  let classificacao = {};
+  for (let i = 0; i < listaTimes.length; i++) {
+    let time = listaTimes[i].nome;
+    classificacao[time] = 0;
+  }
+
+  for (let i = 0; i < jogosVolta.length; i++) {
+    let jogo = jogosVolta[i];
+    if (jogo.gols1 > jogo.gols2) {
+      classificacao[jogo.time1] += 3;
+    } else if (jogo.gols2 > jogo.gols1) {
+      classificacao[jogo.time2] += 3;
+    } else {
+      classificacao[jogo.time1] += 1;
+      classificacao[jogo.time2] += 1;
+    }
+  }
+  let campeaoDoCampeonato = document.getElementById("campeaoText");
+  let campeao = null;
+  let pontuacaoMaxima = 0;
+  for (let time in classificacao) {
+    let pontuacao = classificacao[time];
+    if (pontuacao > pontuacaoMaxima) {
+      campeao = time;
+      pontuacaoMaxima = pontuacao;
+    }
+  }
+
+  campeaoDoCampeonato.innerHTML = "O Campeão e o: " + campeao;
 }
