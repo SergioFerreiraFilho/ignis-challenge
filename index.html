@@ -8,24 +8,30 @@
     <link rel="stylesheet" href="estilos.css" />
   </head>
   <body>
-    <div class="textArea-buttonDiv">
-      <textarea id="times"></textarea>
-      <button onclick="gerarJogos()">Gerar jogos</button>
-      <span id="campeaoText"></span>
+    <div class="container">
+      <div>
+        <h1>Tabela Campeonato IGNIS 2023</h1>
+        <div class="textArea-buttonDiv">
+          <textarea id="times" placeholder="Preencha com os nomes dos times e estados, separado por ;   Ex: Flamengo;Rio de Janeiro" required></textarea>
+          <button onclick="gerarJogos()">Gerar jogos</button>
+          <span id="campeaoText"></span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Time 1</th>
+              <th>Time 2</th>
+              <th>Cidade</th>
+              <th>Turno</th>
+              <th>Rodada</th>
+              <th>Resultado</th>
+              <th>Rodada Dupla</th>
+            </tr>
+          </thead>
+          <tbody id="tabela"></tbody>
+        </table>
+      </div>
     </div>
-    <table>
-      <thead class="theadTable">
-        <tr>
-          <th>Time 1</th>
-          <th>Time 2</th>
-          <th>Cidade</th>
-          <th>Turno</th>
-          <th>Rodada</th>
-          <th>Resultado</th>
-        </tr>
-        <tbody id="tabela"></tbody>
-      </thead>
-    </table>
     <script src="eventos.js"></script>
   </body>
 </html>

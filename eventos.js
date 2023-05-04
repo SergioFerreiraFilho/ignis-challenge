@@ -1,6 +1,9 @@
 function gerarJogos() {
-  tabela.innerHTML = ""
+
+  tabela.innerHTML = "";
+  
   let timesTextArea = document.getElementById("times");
+  let campeaoDoCampeonato = document.getElementById("campeaoText");
   let timesTexto = timesTextArea.value;
   let partidas = timesTexto.split("\n");
   let listaTimes = [];
@@ -11,10 +14,16 @@ function gerarJogos() {
     listaTimes.push(time);
   }
 
+  if (listaTimes.length < 2) {
+    alert("Preencha as informações com ao menos 2 Times");
+    campeaoDoCampeonato.innerHTML = "";
+    return;
+  }
+
   let jogosIda = [];
   let rodadaIda = 1;
   let turnoIda = "ida";
-  while (rodadaIda <= 2) {
+  while (rodadaIda <= 1) {
     for (let i = 0; i < listaTimes.length - 1; i++) {
       for (let j = i + 1; j < listaTimes.length; j++) {
         let jogo = {
@@ -31,12 +40,12 @@ function gerarJogos() {
       }
     }
     rodadaIda++;
-    turnoIda = turnoIda == "ida" ? "volta" : "ida";
+    turnoIda = turnoIda == "Ida" ? "Volta" : "Ida";
   }
 
   let jogosVolta = [];
   let rodadaVolta = 1;
-  let turnoVolta = "ida";
+  let turnoVolta = "Ida";
   while (rodadaVolta <= 2) {
     for (let i = 0; i < jogosIda.length; i++) {
       let jogoIda = jogosIda[i];
@@ -53,7 +62,7 @@ function gerarJogos() {
       jogosVolta.push(jogoVolta);
     }
     rodadaVolta++;
-    turnoVolta = turnoVolta == "ida" ? "volta" : "ida";
+    turnoVolta = turnoVolta == "Ida" ? "Volta" : "Ida";
   }
   for (let i = 0; i < jogosVolta.length; i++) {
     let jogo = jogosVolta[i];
@@ -63,25 +72,31 @@ function gerarJogos() {
     jogo.gols2 = gols2;
   }
 
-  jogosVolta.sort(function (a, b) {
-    if (a.rodada != b.rodada) {
-      return a.rodada - b.rodada;
-    } else {
-      if (a.turno == "ida") {
-        return -1;
-      } else {
-        return 1;
-      }
-    }
-  });
-  
   for (let i = 0; i < jogosVolta.length; i++) {
     let jogo = jogosVolta[i];
-    let partida =
+    let time1 = jogo.time1;
+    let time2 = jogo.time2;
+    let partida;
+
+    let jogosAnteriores = jogosVolta.slice(0, i);
+    let jaSeEnfrentaram = jogosAnteriores.some((j) => {
+      return (
+        (j.time1 === time1 && j.time2 === time2) ||
+        (j.time1 === time2 && j.time2 === time1)
+      );
+    });
+
+    if (jaSeEnfrentaram) {
+      time1 = jogo.time2;
+      time2 = jogo.time1;
+      jogo.cidade1 = jogo.cidade2;
+    }
+
+    partida =
       "<tr><td>" +
-      jogo.time1 +
+      time1 +
       "</td><td>" +
-      jogo.time2 +
+      time2 +
       "</td><td>" +
       jogo.cidade1 +
       "</td><td>" +
@@ -92,7 +107,27 @@ function gerarJogos() {
       jogo.gols1 +
       "x" +
       jogo.gols2;
-    ("</td><td>");
+
+    if (i > 0) {
+      let jogoAnterior = jogosVolta[i - 1];
+      if (
+        jogoAnterior.cidade1 == jogo.cidade1 &&
+        jogoAnterior.rodada == jogo.rodada
+      ) {
+        partida += " <td>Rodada Dupla</td>";
+      }
+    }
+
+    if (i < jogosVolta.length - 1) {
+      let proximoJogo = jogosVolta[i + 1];
+      if (
+        proximoJogo.rodada == jogo.rodada &&
+        proximoJogo.cidade1 == jogo.cidade1
+      ) {
+        partida += " <td>Rodada Dupla</td>";
+      }
+    }
+    partida += "</td></tr>";
     tabela.innerHTML += partida;
   }
   let classificacao = {};
@@ -112,16 +147,21 @@ function gerarJogos() {
       classificacao[jogo.time2] += 1;
     }
   }
-  let campeaoDoCampeonato = document.getElementById("campeaoText");
-  let campeao = null;
-  let pontuacaoMaxima = 0;
-  for (let time in classificacao) {
-    let pontuacao = classificacao[time];
-    if (pontuacao > pontuacaoMaxima) {
-      campeao = time;
-      pontuacaoMaxima = pontuacao;
-    }
-  }
 
-  campeaoDoCampeonato.innerHTML = "O Campeão e o: " + campeao;
+  if (timesTexto == "") {
+    campeaoDoCampeonato.innerHTML = "";
+    return;
+  } else {
+    let campeao = null;
+    let pontuacaoMaxima = 0;
+    for (let time in classificacao) {
+      let pontuacao = classificacao[time];
+      if (pontuacao > pontuacaoMaxima) {
+        campeao = time;
+        pontuacaoMaxima = pontuacao;
+      }
+    }
+
+    campeaoDoCampeonato.innerHTML = "O Campeão e o: " + campeao;
+  }
 }
